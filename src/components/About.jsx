@@ -17,7 +17,7 @@ const tools = [
     'ENVI', 'MS Office Suite', 'Canva'
 ];
 
-const languages = ['English', 'Hindi', 'Haryanvi'];
+const languages = ['English', 'Hindi'];
 
 export default function About() {
     const ref = useRef(null);
