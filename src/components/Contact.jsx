@@ -1,8 +1,8 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Mail, Linkedin, Globe, MapPin, Send } from 'lucide-react';
+import { Mail, Linkedin, Globe, ArrowUpRight } from 'lucide-react';
 
-const socialLinks = [
+const links = [
     {
         icon: Mail,
         label: 'Email',
@@ -13,13 +13,13 @@ const socialLinks = [
         icon: Linkedin,
         label: 'LinkedIn',
         href: 'https://www.linkedin.com/in/geographicdev',
-        display: 'LinkedIn Profile',
+        display: 'linkedin.com/in/geographicdev',
     },
     {
         icon: Globe,
         label: 'ResearchGate',
         href: 'https://www.researchgate.net/profile/Dev-Kumar-37',
-        display: 'ResearchGate Profile',
+        display: 'researchgate.net/Dev-Kumar-37',
     },
 ];
 
@@ -28,74 +28,74 @@ export default function Contact() {
     const isInView = useInView(ref, { once: true, margin: '-100px' });
 
     return (
-        <section id="contact" className="relative py-24 bg-[var(--color-bg-dark)] text-[var(--color-text-light)] overflow-hidden" ref={ref}>
+        <section
+            id="contact"
+            className="relative py-28 bg-[var(--color-bg-dark)] overflow-hidden"
+            ref={ref}
+        >
+            {/* Subtle decorative element */}
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/20 to-transparent" />
+
             <div className="relative z-10 w-full px-6">
-                <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
+                {/* Minimal header */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6 }}
+                    className="mb-16"
+                >
+                    <p className="text-xs font-medium tracking-[0.25em] uppercase text-[var(--color-accent)]/70 mb-3">
+                        Contact
+                    </p>
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-[var(--color-text-light)] leading-snug">
+                        Let's work together.
+                    </h2>
+                </motion.div>
 
-                    {/* Text Content */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.7 }}
-                    >
-                        <p className="text-sm font-medium tracking-widest uppercase text-[var(--color-accent)] mb-4">
-                            Get in Touch
-                        </p>
-                        <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6 leading-tight">
-                            Let's Collaborate on <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary-light)] to-[var(--color-accent-light)]">Geospatial Innovation</span>
-                        </h2>
-                        <p className="text-[var(--color-text-light)]/70 text-lg mb-8 leading-relaxed">
-                            I'm always open to discussing research collaborations, GIS projects,
-                            or opportunities to apply spatial analysis to real-world challenges.
-                        </p>
-
-                        <div className="flex items-center gap-3 text-[var(--color-text-light)]/60 mb-8">
-                            <MapPin size={18} />
-                            <span>New Delhi, India</span>
-                        </div>
-
-                        <a
-                            href="mailto:geographicdevy@gmail.com"
-                            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--color-primary)] text-white font-semibold shadow-lg shadow-[var(--color-primary)]/30 hover:bg-[var(--color-primary-light)] hover:scale-105 transition-all duration-300"
-                        >
-                            <Send size={18} />
-                            Say Hello
-                        </a>
-                    </motion.div>
-
-                    {/* Social Cards */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.7, delay: 0.2 }}
-                        className="grid gap-4"
-                    >
-                        {socialLinks.map((link, i) => {
-                            const Icon = link.icon;
-                            return (
-                                <a
-                                    key={link.label}
-                                    href={link.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-4 p-5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-[var(--color-accent)]/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-[var(--color-accent)]/10 transition-all duration-300 group"
-                                >
-                                    <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[var(--color-accent)] group-hover:text-[var(--color-bg-dark)] transition-colors duration-300">
-                                        <Icon size={20} />
-                                    </div>
+                {/* Links as clean rows */}
+                <div className="space-y-0 border-t border-white/8">
+                    {links.map((link, i) => {
+                        const Icon = link.icon;
+                        return (
+                            <motion.a
+                                key={link.label}
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                transition={{ duration: 0.5, delay: 0.15 + i * 0.1 }}
+                                className="flex items-center justify-between py-6 border-b border-white/8 group cursor-pointer hover:pl-2 transition-all duration-300"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <Icon size={18} className="text-[var(--color-text-light)]/40 group-hover:text-[var(--color-accent)] transition-colors duration-300" />
                                     <div>
-                                        <span className="block text-xs font-semibold text-[var(--color-text-light)]/40 uppercase tracking-wider mb-0.5">
+                                        <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-text-light)]/30 mb-1">
                                             {link.label}
                                         </span>
-                                        <span className="text-base font-medium text-[var(--color-text-light)] group-hover:text-[var(--color-accent-light)] transition-colors">
+                                        <span className="text-base text-[var(--color-text-light)]/80 group-hover:text-[var(--color-text-light)] transition-colors duration-300">
                                             {link.display}
                                         </span>
                                     </div>
-                                </a>
-                            );
-                        })}
-                    </motion.div>
+                                </div>
+                                <ArrowUpRight
+                                    size={18}
+                                    className="text-[var(--color-text-light)]/20 group-hover:text-[var(--color-accent)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+                                />
+                            </motion.a>
+                        );
+                    })}
                 </div>
+
+                {/* Subtle location */}
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ duration: 0.6, delay: 0.6 }}
+                    className="mt-12 text-xs tracking-widest uppercase text-[var(--color-text-light)]/25"
+                >
+                    Based in New Delhi, India
+                </motion.p>
             </div>
         </section>
     );

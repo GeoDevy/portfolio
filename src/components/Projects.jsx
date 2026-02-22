@@ -1,8 +1,16 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { X, ZoomIn } from 'lucide-react';
+import { X, ZoomIn, ExternalLink } from 'lucide-react';
 
 const projects = [
+    {
+        title: 'Riverathon 1.0 — Indian Riverbank Change Detection',
+        description: 'A GIS hackathon project featuring multi-temporal LULC analysis, HEC-RAS flood simulation, RUSLE erosion modeling, and climate-driven risk forecasting (SSP scenarios) for Indian riverbanks spanning 1995–2050.',
+        image: '/images/riverathon-dashboard.png',
+        fit: 'contain',
+        tags: ['GIS', 'Hackathon', 'HEC-RAS', 'RUSLE', 'LULC', 'Climate Risk'],
+        link: 'https://testantiver.vercel.app/',
+    },
     {
         title: 'Land Surface Temperature — Delhi NCR',
         description: 'Thermal analysis of Delhi NCR using satellite remote sensing to study urban heat island effects and temperature distribution patterns.',
@@ -44,6 +52,20 @@ const projects = [
         image: '/images/study-area-1.png',
         fit: 'contain',
         tags: ['Cartography', 'QGIS', 'Map Design'],
+    },
+    {
+        title: 'Cumulative Rainfall Map',
+        description: 'Spatial distribution of cumulative rainfall across Patna district in Bihar, mapped using interpolation techniques.',
+        image: '/images/rcp.png',
+        fit: 'contain',
+        tags: ['Rainfall', 'CHIRPS', 'GIS', 'GEE', 'Visualization'],
+    },
+    {
+        title: 'Sentinel-1 SAR Flood Comparison',
+        description: 'Pre- and post-flood SAR imagery comparison using Sentinel-1 VV polarization to detect inundation extent and riverbank changes (May–Sep 2024).',
+        image: '/images/sar-flood-comparison.png',
+        fit: 'contain',
+        tags: ['SAR', 'Sentinel-1', 'Flood Mapping', 'GEE', 'Remote Sensing'],
     },
 ];
 
@@ -144,6 +166,17 @@ export default function Projects() {
                                         </span>
                                     ))}
                                 </div>
+                                {project.link && (
+                                    <a
+                                        href={project.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-300"
+                                    >
+                                        View Live Dashboard <ExternalLink size={14} />
+                                    </a>
+                                )}
                             </div>
                         </motion.div>
                     ))}
