@@ -19,7 +19,7 @@ const education = [
 
 const experience = [
     {
-        role: 'Intern – Geography Content Development',
+        role: 'Intern – ICT Development in Social Sciences',
         company: 'Central Institute of Educational Technology',
         period: 'July 2024 – Oct 2024',
         description: 'Contributed to the development of geography educational materials and curriculum resources for national-level textbooks.',
