@@ -18,7 +18,7 @@ const socialLinks = [
     {
         icon: Globe,
         label: 'ResearchGate',
-        href: 'https://www.researchgate.net',
+        href: 'https://www.researchgate.net/profile/Dev-Kumar-37',
         display: 'ResearchGate Profile',
     },
 ];
