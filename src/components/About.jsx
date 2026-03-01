@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Globe, Map, Satellite, Mountain, Microscope, BarChart3 } from 'lucide-react';
 
@@ -25,7 +24,7 @@ export default function About() {
 
     return (
         <section id="about" className="section bg-[var(--color-bg)]" ref={ref}>
-            <div className="w-full">
+            <div className="section-container">
                 {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -39,7 +38,7 @@ export default function About() {
                     <h2 className="text-3xl md:text-4xl font-serif font-bold text-[var(--color-text)]">
                         Who I Am
                     </h2>
-                    <div className="mt-4 w-16 h-[2px] bg-[var(--color-primary)]" />
+                    <div className="mt-4 w-16 h-[2px] bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)]" />
                 </motion.div>
 
                 <div className="grid md:grid-cols-5 gap-12">
@@ -70,7 +69,7 @@ export default function About() {
                         <div className="pt-4 flex flex-wrap items-center gap-3">
                             <span className="text-xs font-semibold uppercase tracking-wider text-[var(--color-text)]">Languages:</span>
                             {languages.map((lang) => (
-                                <span key={lang} className="px-3 py-1 text-xs rounded-full bg-[var(--color-primary)]/8 text-[var(--color-primary)] font-medium">
+                                <span key={lang} className="px-4 py-1.5 text-xs rounded-full bg-[var(--color-primary)]/8 text-[var(--color-primary)] font-semibold border border-[var(--color-primary)]/15">
                                     {lang}
                                 </span>
                             ))}
@@ -96,10 +95,12 @@ export default function About() {
                                         initial={{ opacity: 0, y: 15 }}
                                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                                         transition={{ duration: 0.5, delay: 0.5 + i * 0.08 }}
-                                        className="flex items-center gap-3 p-3 rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border)] hover:border-[var(--color-accent)]/40 hover:shadow-sm transition-all duration-300"
+                                        className="card-hover flex items-center gap-3 p-3.5 rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 cursor-default"
                                     >
-                                        <Icon size={18} className="text-[var(--color-primary)]" />
-                                        <span className="text-xs font-medium text-[var(--color-text)]">{skill.label}</span>
+                                        <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)]/8 flex items-center justify-center shrink-0">
+                                            <Icon size={16} className="text-[var(--color-primary)]" />
+                                        </div>
+                                        <span className="text-xs font-semibold text-[var(--color-text)]">{skill.label}</span>
                                     </motion.div>
                                 );
                             })}
@@ -109,9 +110,9 @@ export default function About() {
                         <h3 className="text-sm font-semibold uppercase tracking-widest text-[var(--color-text)] mt-8 mb-4">
                             Tools & Software
                         </h3>
-                        <div className="flex flex-wrap gap-3">
+                        <div className="flex flex-wrap gap-2.5">
                             {tools.map((tool) => (
-                                <span key={tool} className="px-4 py-2 text-xs rounded-lg bg-[var(--color-bg-dark)]/5 text-[var(--color-text-muted)] font-medium">
+                                <span key={tool} className="px-4 py-2 text-xs rounded-lg bg-[var(--color-bg-dark)]/5 text-[var(--color-text-muted)] font-medium hover:bg-[var(--color-primary)]/8 hover:text-[var(--color-primary)] transition-colors duration-300 cursor-default">
                                     {tool}
                                 </span>
                             ))}

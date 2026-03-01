@@ -33,10 +33,18 @@ export default function Contact() {
             className="relative py-28 bg-[var(--color-bg-dark)] overflow-hidden"
             ref={ref}
         >
-            {/* Subtle decorative element */}
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/20 to-transparent" />
+            {/* Animated gradient line */}
+            <div className="absolute top-0 left-0 w-full h-px gradient-border" />
 
-            <div className="relative z-10 w-full px-6">
+            {/* Subtle dot pattern */}
+            <div className="absolute inset-0 opacity-[0.03]"
+                style={{
+                    backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)`,
+                    backgroundSize: '24px 24px',
+                }}
+            />
+
+            <div className="relative z-10 section-container px-6">
                 {/* Minimal header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -50,6 +58,7 @@ export default function Contact() {
                     <h2 className="text-3xl md:text-4xl font-serif font-bold text-[var(--color-text-light)] leading-snug">
                         Let's work together.
                     </h2>
+                    <div className="mt-4 w-16 h-[2px] bg-gradient-to-r from-[var(--color-accent)] to-transparent" />
                 </motion.div>
 
                 {/* Links as clean rows */}
@@ -65,22 +74,24 @@ export default function Contact() {
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                                 transition={{ duration: 0.5, delay: 0.15 + i * 0.1 }}
-                                className="flex items-center justify-between py-6 border-b border-white/8 group cursor-pointer hover:pl-2 transition-all duration-300"
+                                className="flex items-center justify-between py-6 border-b border-white/6 group cursor-pointer hover:pl-3 transition-all duration-300"
                             >
                                 <div className="flex items-center gap-4">
-                                    <Icon size={18} className="text-[var(--color-text-light)]/40 group-hover:text-[var(--color-accent)] transition-colors duration-300" />
+                                    <div className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-[var(--color-accent)]/15 transition-colors duration-300">
+                                        <Icon size={16} className="text-[var(--color-text-light)]/40 group-hover:text-[var(--color-accent)] transition-colors duration-300" />
+                                    </div>
                                     <div>
-                                        <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-text-light)]/30 mb-1">
+                                        <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-text-light)]/25 mb-1">
                                             {link.label}
                                         </span>
-                                        <span className="text-base text-[var(--color-text-light)]/80 group-hover:text-[var(--color-text-light)] transition-colors duration-300">
+                                        <span className="text-base text-[var(--color-text-light)]/75 group-hover:text-[var(--color-text-light)] transition-colors duration-300">
                                             {link.display}
                                         </span>
                                     </div>
                                 </div>
                                 <ArrowUpRight
                                     size={18}
-                                    className="text-[var(--color-text-light)]/20 group-hover:text-[var(--color-accent)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+                                    className="text-[var(--color-text-light)]/15 group-hover:text-[var(--color-accent)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
                                 />
                             </motion.a>
                         );
@@ -92,7 +103,7 @@ export default function Contact() {
                     initial={{ opacity: 0 }}
                     animate={isInView ? { opacity: 1 } : {}}
                     transition={{ duration: 0.6, delay: 0.6 }}
-                    className="mt-12 text-xs tracking-widest uppercase text-[var(--color-text-light)]/25"
+                    className="mt-12 text-xs tracking-widest uppercase text-[var(--color-text-light)]/20"
                 >
                     Based in New Delhi, India
                 </motion.p>

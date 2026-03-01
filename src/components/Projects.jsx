@@ -1,8 +1,17 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { X, ZoomIn, ExternalLink } from 'lucide-react';
+import { X, ZoomIn, ExternalLink, Sparkles } from 'lucide-react';
 
 const projects = [
+    {
+        title: 'RainCorrect — ML Precipitation Bias Correction',
+        description: 'A machine learning framework for correcting NASA GPM IMERG satellite precipitation estimates over Kerala, India. Uses Random Forest, XGBoost, and LightGBM models with terrain-based predictors (elevation, slope, coastal distance) validated against IMD ground truth data across 14 districts. Includes an interactive Leaflet-based dashboard and a Wayanad July 2024 case study.',
+        image: '/images/raincorrect-dashboard.png',
+        fit: 'cover',
+        tags: ['Machine Learning', 'XGBoost', 'Remote Sensing', 'React', 'Leaflet', 'Python'],
+        link: 'https://dtufinaldashboard.vercel.app/',
+        featured: true,
+    },
     {
         title: 'Riverathon 1.0 — Indian Riverbank Change Detection',
         description: 'A GIS hackathon project featuring multi-temporal LULC analysis, HEC-RAS flood simulation, RUSLE erosion modeling, and climate-driven risk forecasting (SSP scenarios) for Indian riverbanks spanning 1995–2050.',
@@ -94,10 +103,82 @@ function LightboxModal({ project, onClose }) {
                 <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-auto max-h-[85vh] object-contain rounded-lg"
+                    className="w-full h-auto max-h-[85vh] object-contain rounded-xl"
                 />
                 <p className="mt-3 text-center text-white/80 text-sm font-medium">{project.title}</p>
             </motion.div>
+        </motion.div>
+    );
+}
+
+function FeaturedProjectCard({ project, onImageClick }) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="relative mb-10 rounded-2xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-card)] card-hover"
+        >
+            {/* Featured gradient accent */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-accent)] to-[var(--color-primary-light)]" />
+
+            <div className="grid md:grid-cols-2 gap-0">
+                {/* Image */}
+                <div
+                    className="relative aspect-[16/10] md:aspect-auto overflow-hidden cursor-pointer group bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-6 flex items-center justify-center"
+                    onClick={() => onImageClick(project)}
+                >
+                    <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-contain rounded-lg shadow-lg group-hover:scale-[1.03] transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <ZoomIn size={32} className="text-white drop-shadow-lg" />
+                    </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-8 md:p-10 flex flex-col justify-center">
+                    <div className="flex items-center gap-3 mb-4">
+                        <span className="featured-badge flex items-center gap-1.5">
+                            <Sparkles size={12} />
+                            Featured Project
+                        </span>
+                    </div>
+
+                    <h3 className="text-2xl md:text-3xl font-serif font-bold text-[var(--color-text)] mb-4 leading-tight">
+                        {project.title}
+                    </h3>
+
+                    <p className="text-sm text-[var(--color-text-muted)] leading-relaxed mb-6">
+                        {project.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mb-6">
+                        {project.tags.map((tag) => (
+                            <span
+                                key={tag}
+                                className="px-3 py-1 text-[11px] rounded-full bg-[var(--color-primary)]/8 text-[var(--color-primary)] font-semibold border border-[var(--color-primary)]/12"
+                            >
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+
+                    {project.link && (
+                        <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-light)] text-white text-sm font-semibold hover:shadow-lg hover:shadow-[var(--color-primary)]/20 transition-all duration-300 w-fit hover:-translate-y-0.5"
+                        >
+                            View Live Dashboard <ExternalLink size={14} />
+                        </a>
+                    )}
+                </div>
+            </div>
         </motion.div>
     );
 }
@@ -107,9 +188,12 @@ export default function Projects() {
     const isInView = useInView(ref, { once: true, margin: '-80px' });
     const [selected, setSelected] = useState(null);
 
+    const featuredProject = projects.find(p => p.featured);
+    const regularProjects = projects.filter(p => !p.featured);
+
     return (
         <section id="projects" className="section bg-[var(--color-bg)]" ref={ref}>
-            <div className="w-full">
+            <div className="section-container">
                 {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -123,18 +207,23 @@ export default function Projects() {
                     <h2 className="text-3xl md:text-4xl font-serif font-bold text-[var(--color-text)]">
                         Research & Map Projects
                     </h2>
-                    <div className="mt-4 w-16 h-[2px] bg-[var(--color-primary)]" />
+                    <div className="mt-4 w-16 h-[2px] bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)]" />
                 </motion.div>
+
+                {/* Featured Project */}
+                {featuredProject && (
+                    <FeaturedProjectCard project={featuredProject} onImageClick={setSelected} />
+                )}
 
                 {/* Project Grid */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {projects.map((project, i) => (
+                    {regularProjects.map((project, i) => (
                         <motion.div
                             key={project.title}
                             initial={{ opacity: 0, y: 30 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.6, delay: 0.1 + i * 0.1 }}
-                            className="group flex flex-col h-full rounded-xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-card)] hover:shadow-xl hover:-translate-y-1 hover:border-[var(--color-primary)]/30 transition-all duration-500"
+                            transition={{ duration: 0.6, delay: 0.1 + i * 0.08 }}
+                            className="card-hover group flex flex-col h-full rounded-xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-card)]"
                         >
                             {/* Image */}
                             <div className={`relative overflow-hidden aspect-[4/3] cursor-pointer ${project.fit === 'cover' ? 'bg-black/5 p-4' : 'bg-white'}`} onClick={() => setSelected(project)}>
@@ -143,14 +232,14 @@ export default function Projects() {
                                     alt={project.title}
                                     className={`w-full h-full object-${project.fit} ${project.fit === 'cover' ? 'mix-blend-multiply' : ''} group-hover:scale-105 transition-transform duration-700`}
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <ZoomIn size={28} className="text-white" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                    <ZoomIn size={28} className="text-white drop-shadow" />
                                 </div>
                             </div>
 
                             {/* Content */}
                             <div className="p-5 flex-1 flex flex-col">
-                                <h3 className="font-semibold text-[var(--color-text)] mb-3 text-base">
+                                <h3 className="font-semibold text-[var(--color-text)] mb-3 text-base leading-snug">
                                     {project.title}
                                 </h3>
                                 <p className="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4">
@@ -160,7 +249,7 @@ export default function Projects() {
                                     {project.tags.map((tag) => (
                                         <span
                                             key={tag}
-                                            className="px-2 py-0.5 text-[10px] rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)] font-semibold"
+                                            className="px-2.5 py-0.5 text-[10px] rounded-full bg-[var(--color-primary)]/8 text-[var(--color-primary)] font-semibold"
                                         >
                                             {tag}
                                         </span>

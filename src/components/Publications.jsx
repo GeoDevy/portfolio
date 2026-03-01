@@ -26,7 +26,7 @@ export default function Publications() {
             className="section bg-[var(--color-bg-card)]"
             ref={ref}
         >
-            <div className="w-full">
+            <div className="section-container">
 
                 {/* Section Header */}
                 <motion.div
@@ -41,7 +41,7 @@ export default function Publications() {
                     <h2 className="text-3xl md:text-4xl font-serif font-bold text-[var(--color-text)]">
                         Publications
                     </h2>
-                    <div className="mt-4 w-16 h-[2px] bg-[var(--color-primary)]" />
+                    <div className="mt-4 w-16 h-[2px] bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)]" />
                 </motion.div>
 
                 {/* Publications List */}
@@ -55,29 +55,29 @@ export default function Publications() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.6, delay: 0.15 * i }}
-                            className="flex gap-5 p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] hover:shadow-xl hover:-translate-y-1 hover:border-[var(--color-primary)]/30 transition-all duration-300 relative overflow-hidden group cursor-pointer"
+                            className="card-hover flex gap-5 p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] hover:border-[var(--color-primary)]/25 relative overflow-hidden group cursor-pointer block"
                         >
                             {/* Decorative Background Shape */}
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-primary)]/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110" />
+                            <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-[var(--color-primary)]/5 to-transparent rounded-bl-full -mr-18 -mt-18 transition-transform group-hover:scale-125" />
 
                             {/* Icon */}
                             <div className="hidden md:flex items-start pt-1">
-                                <div className="w-12 h-12 rounded-xl bg-[var(--color-primary)]/10 flex items-center justify-center shrink-0">
-                                    <BookOpen size={24} className="text-[var(--color-primary)]" />
+                                <div className="w-12 h-12 rounded-xl bg-[var(--color-primary)]/8 flex items-center justify-center shrink-0">
+                                    <BookOpen size={22} className="text-[var(--color-primary)]" />
                                 </div>
                             </div>
 
                             {/* Content */}
                             <div className="flex-1 relative z-10">
-                                <span className="inline-block px-3 py-1 text-[10px] font-bold rounded-full bg-[var(--color-primary)] text-white uppercase tracking-wider mt-1 mb-3">
+                                <span className="inline-block px-3 py-1 text-[10px] font-bold rounded-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-light)] text-white uppercase tracking-wider mt-1 mb-3">
                                     {pub.type}
                                 </span>
 
                                 <h3 className="text-xl md:text-2xl font-serif font-bold text-[var(--color-text)] leading-tight mb-3 group-hover:text-[var(--color-primary)] transition-colors duration-300">
                                     {pub.title}
                                     <ExternalLink
-                                        size={18}
-                                        className="inline ml-2 opacity-60 group-hover:opacity-100 transition"
+                                        size={16}
+                                        className="inline ml-2 opacity-40 group-hover:opacity-100 transition"
                                     />
                                 </h3>
 
@@ -101,4 +101,4 @@ export default function Publications() {
             </div>
         </section>
     );
-} 
+}
