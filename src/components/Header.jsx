@@ -15,6 +15,8 @@ export default function Header() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState('');
 
+
+
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 40);
         window.addEventListener('scroll', onScroll);
@@ -69,8 +71,11 @@ export default function Header() {
                                         }`}
                                 >
                                     {link.label}
-                                    <span className={`absolute -bottom-1 left-0 h-[2px] bg-[var(--color-accent)] transition-all duration-300 rounded-full
-                                        ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}
+                                    <span className={`absolute -bottom-1 left-0 h-[2px] rounded-full transition-all duration-300
+                                        ${isActive
+                                            ? 'w-full bg-[var(--color-accent)]'
+                                            : 'w-0 group-hover:w-full bg-[var(--color-accent)]'
+                                        }`}
                                     />
                                 </a>
                             </li>
@@ -87,6 +92,8 @@ export default function Header() {
                     {menuOpen ? <X size={22} /> : <Menu size={22} />}
                 </button>
             </nav>
+
+
 
             {/* Mobile menu */}
             <AnimatePresence>

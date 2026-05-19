@@ -8,6 +8,7 @@ const education = [
         institution: 'Amity University, Noida',
         period: '2023 – 2027',
         description: 'Specializing in spatial analysis, remote sensing, and environmental geography with a focus on geospatial research.',
+        current: true,
     },
     {
         degree: 'Secondary & Senior Secondary',
@@ -18,6 +19,13 @@ const education = [
 ];
 
 const experience = [
+    {
+        role: 'GIS & Remote Sensing Intern',
+        company: 'STAQO',
+        period: 'May 2026 – Present',
+        description: 'Working on geospatial analysis and remote sensing projects, leveraging GIS technologies for spatial data processing and visualization.',
+        current: true,
+    },
     {
         role: 'Intern – ICT Development in Social Sciences',
         company: 'Central Institute of Educational Technology',
@@ -76,8 +84,20 @@ const TimelineItem = ({ item, delay }) => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay }}
-        className="card-hover p-6 rounded-xl bg-[var(--color-bg)] border border-[var(--color-border)] hover:border-[var(--color-primary)]/25 group"
+        className="relative p-6 rounded-xl bg-[var(--color-bg)] border border-[var(--color-border)] hover:border-[var(--color-primary)]/25 group h-full glow-border-hover overflow-hidden"
     >
+
+
+        {/* Current indicator */}
+        {item.current && (
+            <div className="absolute top-4 right-4">
+                <div className="relative w-3 h-3">
+                    <div className="absolute inset-0 rounded-full bg-[var(--color-accent)] animate-ping opacity-40" />
+                    <div className="relative rounded-full w-3 h-3 bg-[var(--color-accent)]" />
+                </div>
+            </div>
+        )}
+
         <div className="flex items-center gap-2 mb-3">
             <Calendar size={13} className="text-[var(--color-accent)]" />
             <span className="text-[11px] font-bold text-[var(--color-accent)] uppercase tracking-widest">
@@ -138,7 +158,7 @@ export default function Experience() {
                     </div>
                 </div>
 
-                {/* Paired Rows — each row has equal-height cards */}
+                {/* Paired Rows */}
                 {Array.from({ length: Math.max(education.length, experience.length) }).map((_, i) => (
                     <div key={i} className="grid md:grid-cols-2 gap-8 md:gap-10 mb-4 last:mb-0 items-stretch">
                         {education[i] ? (
@@ -171,9 +191,9 @@ export default function Experience() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: i * 0.08 }}
-                                className="card-hover group relative overflow-hidden p-6 rounded-xl bg-[var(--color-bg)] border border-[var(--color-border)] hover:border-[var(--color-primary)]/25"
+                                className="group relative overflow-hidden p-6 rounded-xl bg-[var(--color-bg)] border border-[var(--color-border)] hover:border-[var(--color-primary)]/25 glow-border-hover h-full"
                             >
-                                <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-bl from-[var(--color-primary)]/5 to-transparent rounded-bl-full -mr-14 -mt-14 transition-transform group-hover:scale-125" />
+                                <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-bl from-[var(--color-primary)]/5 to-transparent rounded-bl-full -mr-14 -mt-14 transition-transform group-hover:scale-150 duration-500" />
 
                                 <div className="relative z-10">
                                     <span className="inline-block px-3 py-1 text-[10px] font-bold tracking-wider uppercase bg-[var(--color-accent)]/10 text-[var(--color-accent)] rounded-full mb-4">

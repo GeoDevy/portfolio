@@ -3,24 +3,9 @@ import { useRef } from 'react';
 import { Mail, Linkedin, Globe, ArrowUpRight } from 'lucide-react';
 
 const links = [
-    {
-        icon: Mail,
-        label: 'Email',
-        href: 'mailto:geographicdevy@gmail.com',
-        display: 'geographicdevy@gmail.com',
-    },
-    {
-        icon: Linkedin,
-        label: 'LinkedIn',
-        href: 'https://www.linkedin.com/in/geographicdev',
-        display: 'linkedin.com/in/geographicdev',
-    },
-    {
-        icon: Globe,
-        label: 'ResearchGate',
-        href: 'https://www.researchgate.net/profile/Dev-Kumar-37',
-        display: 'researchgate.net/Dev-Kumar-37',
-    },
+    { icon: Mail, label: 'Email', href: 'mailto:geographicdevy@gmail.com', display: 'geographicdevy@gmail.com' },
+    { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/geographicdev', display: 'linkedin.com/in/geographicdev' },
+    { icon: Globe, label: 'ResearchGate', href: 'https://www.researchgate.net/profile/Dev-Kumar-37', display: 'researchgate.net/Dev-Kumar-37' },
 ];
 
 export default function Contact() {
@@ -28,40 +13,24 @@ export default function Contact() {
     const isInView = useInView(ref, { once: true, margin: '-100px' });
 
     return (
-        <section
-            id="contact"
-            className="relative py-28 bg-[var(--color-bg-dark)] overflow-hidden"
-            ref={ref}
-        >
-            {/* Animated gradient line */}
+        <section id="contact" className="relative py-28 bg-[var(--color-bg-dark)] overflow-hidden" ref={ref}>
             <div className="absolute top-0 left-0 w-full h-px gradient-border" />
-
-            {/* Subtle dot pattern */}
-            <div className="absolute inset-0 opacity-[0.03]"
-                style={{
-                    backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)`,
-                    backgroundSize: '24px 24px',
-                }}
-            />
+            <div className="orb orb-1 -top-40 -right-40 opacity-30" />
+            <div className="orb orb-2 -bottom-20 -left-32 opacity-20" />
+            <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)`, backgroundSize: '24px 24px' }} />
 
             <div className="relative z-10 section-container px-6">
-                {/* Minimal header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
                     className="mb-16"
                 >
-                    <p className="text-xs font-medium tracking-[0.25em] uppercase text-[var(--color-accent)]/70 mb-3">
-                        Contact
-                    </p>
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-[var(--color-text-light)] leading-snug">
-                        Let's work together.
-                    </h2>
+                    <p className="text-xs font-medium tracking-[0.25em] uppercase text-[var(--color-accent)]/70 mb-3">Contact</p>
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-[var(--color-text-light)] leading-snug">Let's work together.</h2>
                     <div className="mt-4 w-16 h-[2px] bg-gradient-to-r from-[var(--color-accent)] to-transparent" />
                 </motion.div>
 
-                {/* Links as clean rows */}
                 <div className="space-y-0 border-t border-white/8">
                     {links.map((link, i) => {
                         const Icon = link.icon;
@@ -81,24 +50,16 @@ export default function Contact() {
                                         <Icon size={16} className="text-[var(--color-text-light)]/40 group-hover:text-[var(--color-accent)] transition-colors duration-300" />
                                     </div>
                                     <div>
-                                        <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-text-light)]/25 mb-1">
-                                            {link.label}
-                                        </span>
-                                        <span className="text-base text-[var(--color-text-light)]/75 group-hover:text-[var(--color-text-light)] transition-colors duration-300">
-                                            {link.display}
-                                        </span>
+                                        <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-text-light)]/25 mb-1">{link.label}</span>
+                                        <span className="text-base text-[var(--color-text-light)]/75 group-hover:text-[var(--color-text-light)] transition-colors duration-300">{link.display}</span>
                                     </div>
                                 </div>
-                                <ArrowUpRight
-                                    size={18}
-                                    className="text-[var(--color-text-light)]/15 group-hover:text-[var(--color-accent)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
-                                />
+                                <ArrowUpRight size={18} className="text-[var(--color-text-light)]/15 group-hover:text-[var(--color-accent)] transition-all duration-300" />
                             </motion.a>
                         );
                     })}
                 </div>
 
-                {/* Subtle location */}
                 <motion.p
                     initial={{ opacity: 0 }}
                     animate={isInView ? { opacity: 1 } : {}}

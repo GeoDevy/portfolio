@@ -1,4 +1,4 @@
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { X, ZoomIn, ExternalLink, Sparkles } from 'lucide-react';
 
@@ -78,6 +78,9 @@ const projects = [
     },
 ];
 
+// Extract all unique tags
+const allTags = ['All', ...new Set(projects.flatMap(p => p.tags))];
+
 function LightboxModal({ project, onClose }) {
     return (
         <motion.div
@@ -88,9 +91,10 @@ function LightboxModal({ project, onClose }) {
             onClick={onClose}
         >
             <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
+                initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                transition={{ duration: 0.3 }}
                 className="relative max-w-5xl max-h-[90vh] w-full"
                 onClick={(e) => e.stopPropagation()}
             >
@@ -118,7 +122,7 @@ function FeaturedProjectCard({ project, onImageClick }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="relative mb-10 rounded-2xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-card)] card-hover"
+            className="relative mb-10 rounded-2xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-card)]"
         >
             {/* Featured gradient accent */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-accent)] to-[var(--color-primary-light)]" />
@@ -132,7 +136,7 @@ function FeaturedProjectCard({ project, onImageClick }) {
                     <img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-contain rounded-lg shadow-lg group-hover:scale-[1.03] transition-transform duration-700"
+                        className="w-full h-full object-contain rounded-lg shadow-lg transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <ZoomIn size={32} className="text-white drop-shadow-lg" />
@@ -172,7 +176,7 @@ function FeaturedProjectCard({ project, onImageClick }) {
                             href={project.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-light)] text-white text-sm font-semibold hover:shadow-lg hover:shadow-[var(--color-primary)]/20 transition-all duration-300 w-fit hover:-translate-y-0.5"
+                            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-light)] text-white text-sm font-semibold hover:shadow-lg hover:shadow-[var(--color-primary)]/20 transition-all duration-300 w-fit"
                         >
                             View Live Dashboard <ExternalLink size={14} />
                         </a>
@@ -187,9 +191,13 @@ export default function Projects() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-80px' });
     const [selected, setSelected] = useState(null);
+    const [activeFilter, setActiveFilter] = useState('All');
 
     const featuredProject = projects.find(p => p.featured);
     const regularProjects = projects.filter(p => !p.featured);
+    const filteredProjects = activeFilter === 'All'
+        ? regularProjects
+        : regularProjects.filter(p => p.tags.includes(activeFilter));
 
     return (
         <section id="projects" className="section bg-[var(--color-bg)]" ref={ref}>
@@ -215,65 +223,96 @@ export default function Projects() {
                     <FeaturedProjectCard project={featuredProject} onImageClick={setSelected} />
                 )}
 
-                {/* Project Grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {regularProjects.map((project, i) => (
-                        <motion.div
-                            key={project.title}
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.6, delay: 0.1 + i * 0.08 }}
-                            className="card-hover group flex flex-col h-full rounded-xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-card)]"
+                {/* Filter Tabs */}
+                <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="flex flex-wrap gap-2 mb-10"
+                >
+                    {['All', 'Remote Sensing', 'GIS', 'Cartography', 'Machine Learning'].map((tag) => (
+                        <button
+                            key={tag}
+                            onClick={() => setActiveFilter(tag)}
+                            className={`px-4 py-2 text-xs font-semibold rounded-full border transition-all duration-300
+                                ${activeFilter === tag
+                                    ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-lg shadow-[var(--color-primary)]/20'
+                                    : 'bg-transparent text-[var(--color-text-muted)] border-[var(--color-border)] hover:border-[var(--color-primary)]/40 hover:text-[var(--color-primary)]'
+                                }`}
                         >
-                            {/* Image */}
-                            <div className={`relative overflow-hidden aspect-[4/3] cursor-pointer ${project.fit === 'cover' ? 'bg-black/5 p-4' : 'bg-white'}`} onClick={() => setSelected(project)}>
-                                <img
-                                    src={project.image}
-                                    alt={project.title}
-                                    className={`w-full h-full object-${project.fit} ${project.fit === 'cover' ? 'mix-blend-multiply' : ''} group-hover:scale-105 transition-transform duration-700`}
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <ZoomIn size={28} className="text-white drop-shadow" />
-                                </div>
-                            </div>
-
-                            {/* Content */}
-                            <div className="p-5 flex-1 flex flex-col">
-                                <h3 className="font-semibold text-[var(--color-text)] mb-3 text-base leading-snug">
-                                    {project.title}
-                                </h3>
-                                <p className="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4">
-                                    {project.description}
-                                </p>
-                                <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
-                                    {project.tags.map((tag) => (
-                                        <span
-                                            key={tag}
-                                            className="px-2.5 py-0.5 text-[10px] rounded-full bg-[var(--color-primary)]/8 text-[var(--color-primary)] font-semibold"
-                                        >
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                                {project.link && (
-                                    <a
-                                        href={project.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={(e) => e.stopPropagation()}
-                                        className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-300"
-                                    >
-                                        View Live Dashboard <ExternalLink size={14} />
-                                    </a>
-                                )}
-                            </div>
-                        </motion.div>
+                            {tag}
+                        </button>
                     ))}
-                </div>
+                </motion.div>
+
+                {/* Project Grid */}
+                <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <AnimatePresence mode="popLayout">
+                        {filteredProjects.map((project, i) => (
+                            <motion.div
+                                key={project.title}
+                                layout
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <div className="group flex flex-col h-full rounded-xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-card)] hover:border-[var(--color-primary)]/25 transition-colors duration-300">
+                                    {/* Image */}
+                                    <div className={`relative overflow-hidden aspect-[4/3] cursor-pointer ${project.fit === 'cover' ? 'bg-black/5 p-4' : 'bg-white'}`} onClick={() => setSelected(project)}>
+                                        <img
+                                            src={project.image}
+                                            alt={project.title}
+                                            className={`w-full h-full object-${project.fit} ${project.fit === 'cover' ? 'mix-blend-multiply' : ''} transition-transform duration-500 group-hover:scale-105`}
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                                            <span className="flex items-center gap-2 text-white text-xs font-semibold bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                                                <ZoomIn size={14} /> View Full
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Content */}
+                                    <div className="p-5 flex-1 flex flex-col">
+                                        <h3 className="font-semibold text-[var(--color-text)] mb-3 text-base leading-snug group-hover:text-[var(--color-primary)] transition-colors duration-300">
+                                            {project.title}
+                                        </h3>
+                                        <p className="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4 line-clamp-3">
+                                            {project.description}
+                                        </p>
+                                        <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
+                                            {project.tags.map((tag) => (
+                                                <span
+                                                    key={tag}
+                                                    className="px-2.5 py-0.5 text-[10px] rounded-full bg-[var(--color-primary)]/8 text-[var(--color-primary)] font-semibold"
+                                                >
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                        {project.link && (
+                                            <a
+                                                href={project.link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={(e) => e.stopPropagation()}
+                                                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-300 animated-underline"
+                                            >
+                                                View Live Dashboard <ExternalLink size={14} />
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                </motion.div>
             </div>
 
             {/* Lightbox */}
-            {selected && <LightboxModal project={selected} onClose={() => setSelected(null)} />}
+            <AnimatePresence>
+                {selected && <LightboxModal project={selected} onClose={() => setSelected(null)} />}
+            </AnimatePresence>
         </section>
     );
 }

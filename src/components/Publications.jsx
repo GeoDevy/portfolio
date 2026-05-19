@@ -9,7 +9,7 @@ const publications = [
         journal: 'Disaster Advances',
         year: '2025',
         volume: '18(2)',
-        pages: '617–632',
+        pages: '617\u2013632',
         authors: 'Kumar, D., Singh, N., Srivastava, A.K., & Suhasini',
         type: 'Journal Article',
         description: 'A comprehensive study evaluating the resilience and policy response to heatwaves in Delhi informal settlements.',
@@ -21,30 +21,19 @@ export default function Publications() {
     const isInView = useInView(ref, { once: true, margin: '-100px' });
 
     return (
-        <section
-            id="publications"
-            className="section bg-[var(--color-bg-card)]"
-            ref={ref}
-        >
+        <section id="publications" className="section bg-[var(--color-bg-card)]" ref={ref}>
             <div className="section-container">
-
-                {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.7 }}
                     className="mb-16"
                 >
-                    <p className="text-sm font-medium tracking-widest uppercase text-[var(--color-accent)] mb-2">
-                        Research Outcome
-                    </p>
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-[var(--color-text)]">
-                        Publications
-                    </h2>
+                    <p className="text-sm font-medium tracking-widest uppercase text-[var(--color-accent)] mb-2">Research Outcome</p>
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-[var(--color-text)]">Publications</h2>
                     <div className="mt-4 w-16 h-[2px] bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)]" />
                 </motion.div>
 
-                {/* Publications List */}
                 <div className="space-y-5">
                     {publications.map((pub, i) => (
                         <motion.a
@@ -55,36 +44,22 @@ export default function Publications() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.6, delay: 0.15 * i }}
-                            className="card-hover flex gap-5 p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] hover:border-[var(--color-primary)]/25 relative overflow-hidden group cursor-pointer block"
+                            className="flex gap-5 p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] hover:border-[var(--color-primary)]/25 relative overflow-hidden group cursor-pointer block glow-border-hover"
                         >
-                            {/* Decorative Background Shape */}
-                            <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-[var(--color-primary)]/5 to-transparent rounded-bl-full -mr-18 -mt-18 transition-transform group-hover:scale-125" />
-
-                            {/* Icon */}
+                            <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-[var(--color-primary)]/5 to-transparent rounded-bl-full -mr-18 -mt-18 transition-transform duration-500 group-hover:scale-150" />
                             <div className="hidden md:flex items-start pt-1">
                                 <div className="w-12 h-12 rounded-xl bg-[var(--color-primary)]/8 flex items-center justify-center shrink-0">
                                     <BookOpen size={22} className="text-[var(--color-primary)]" />
                                 </div>
                             </div>
-
-                            {/* Content */}
                             <div className="flex-1 relative z-10">
-                                <span className="inline-block px-3 py-1 text-[10px] font-bold rounded-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-light)] text-white uppercase tracking-wider mt-1 mb-3">
-                                    {pub.type}
-                                </span>
-
+                                <span className="inline-block px-3 py-1 text-[10px] font-bold rounded-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-light)] text-white uppercase tracking-wider mt-1 mb-3">{pub.type}</span>
                                 <h3 className="text-xl md:text-2xl font-serif font-bold text-[var(--color-text)] leading-tight mb-3 group-hover:text-[var(--color-primary)] transition-colors duration-300">
                                     {pub.title}
-                                    <ExternalLink
-                                        size={16}
-                                        className="inline ml-2 opacity-40 group-hover:opacity-100 transition"
-                                    />
+                                    <ExternalLink size={16} className="inline ml-2 opacity-40 group-hover:opacity-100 transition-all duration-300" />
                                 </h3>
-
-                                <p className="text-sm font-medium text-[var(--color-text-muted)] mb-4 italic">
-                                    {pub.authors}
-                                </p>
-
+                                <p className="text-sm font-medium text-[var(--color-text-muted)] mb-4 italic">{pub.authors}</p>
+                                <p className="text-sm text-[var(--color-text-muted)] mb-4 leading-relaxed">{pub.description}</p>
                                 <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--color-primary)] font-semibold border-t border-[var(--color-border)] pt-4 mt-4">
                                     <span>{pub.journal}</span>
                                     <span className="w-1 h-1 rounded-full bg-[var(--color-accent)]" />
